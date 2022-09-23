@@ -11,6 +11,7 @@
 		9A46CF5028DD90E600118863 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A46CF4F28DD90E600118863 /* Assets.xcassets */; };
 		9A46CF5328DD90E600118863 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A46CF5128DD90E600118863 /* LaunchScreen.storyboard */; };
 		9A46CF5B28DD954E00118863 /* NewGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A46CF5A28DD954E00118863 /* NewGameViewController.swift */; };
+		9A46CF5F28DD9A6300118863 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A46CF5E28DD9A6300118863 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		9A46CF5228DD90E600118863 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A46CF5428DD90E600118863 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A46CF5A28DD954E00118863 /* NewGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameViewController.swift; sourceTree = "<group>"; };
+		9A46CF5E28DD9A6300118863 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				9A46CF4628DD90E400118863 /* AppDelegate.swift */,
 				9A46CF5A28DD954E00118863 /* NewGameViewController.swift */,
+				9A46CF5E28DD9A6300118863 /* Colors.swift */,
 				9A46CF4F28DD90E600118863 /* Assets.xcassets */,
 				9A46CF5128DD90E600118863 /* LaunchScreen.storyboard */,
 				9A46CF5428DD90E600118863 /* Info.plist */,
@@ -131,6 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A46CF4728DD90E400118863 /* AppDelegate.swift in Sources */,
+				9A46CF5F28DD9A6300118863 /* Colors.swift in Sources */,
 				9A46CF5B28DD954E00118863 /* NewGameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
