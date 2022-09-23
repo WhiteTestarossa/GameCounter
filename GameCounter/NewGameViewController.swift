@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  NewGameViewController.swift
 //  GameCounter
 //
 //  Created by Daniel Belokursky on 23.09.22.
@@ -7,13 +7,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class NewGameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        self.view.backgroundColor = UIColor.red
     }
 
-
 }
-
