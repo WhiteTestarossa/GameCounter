@@ -19,5 +19,7 @@ class Colors {
     let backgroundForActive = UIColor.init(red: 59.0/255.0, green: 59.0/255.0, blue: 59.0/255.0, alpha: 1.0)
     let deleteColor = UIColor.init(red: 236.0/255.0, green: 94.0/255.0, blue: 96.0/255.0, alpha: 1.0)
     let namesColor = UIColor.init(red: 235.0/255.0, green: 174.0/255.0, blue: 104.0/255.0, alpha: 1.0)
+    let separatorColor = UIColor.init(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0)
+    let darkLabelColor = UIColor.init(red: 0.92, green: 0.92, blue: 0.96, alpha: 0.6)
     
 }
