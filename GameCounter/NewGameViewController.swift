@@ -50,7 +50,7 @@ class NewGameViewController: UIViewController {
 }
 
 // MARK: - Setup
-
+// FIXME: TO CONSTANTS
 private extension NewGameViewController {
     
     func setupUI() {
