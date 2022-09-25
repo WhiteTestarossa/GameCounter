@@ -9,7 +9,7 @@ import UIKit
 
 class NewGameViewController: UIViewController {
     
-    var players: [PlayerModel] = []
+    var players: [PlayerModel] = [PlayerModel(name: "Felix"), PlayerModel(name: "Jesse")]
     
     private var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
@@ -32,6 +32,11 @@ class NewGameViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(PlayerTableViewCell.self, forCellReuseIdentifier: PlayerTableViewCell.identifier)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tableView.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,7 +79,7 @@ private extension NewGameViewController {
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
             tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 25.0),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20.0),
-            tableView.heightAnchor.constraint(equalToConstant: 50.0 + 55.0)
+            tableView.heightAnchor.constraint(equalToConstant: 50.0 + 55.0*6)
         ])
         
         NSLayoutConstraint.activate([
@@ -98,14 +103,38 @@ extension NewGameViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PlayerTableViewCell.identifier, for: indexPath) as! PlayerTableViewCell
         
         if (indexPath.row != players.count) {
+            cell.switchToDeleteType()
             cell.textLabel?.text = players[indexPath.row].name
+            cell.iconAction = deleteIconTapped(_:)
         } else {
             cell.switchToAddType()
+            cell.iconAction = addIconTapped(_:)
         }
-        
         return cell
     }
     
+}
+
+// MARK: - Action Methods
+
+private extension NewGameViewController {
+    
+    func addIconTapped(_ sender: UIImageView) {
+        let addPlayerVC = AddPlayerViewController()
+        addPlayerVC.delegate = self
+        self.navigationController?.pushViewController(addPlayerVC, animated: true)
+    }
+    
+    func deleteIconTapped(_ sender: UIImageView) {
+        let point = sender.convert(sender.center, to: tableView)
+        guard let indexPath = tableView.indexPathForRow(at: point) else { return }
+        
+        players.remove(at: indexPath.row)
+        self.tableView.performBatchUpdates({
+            self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .top)
+        }, completion: nil)
+        
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -147,9 +176,13 @@ extension NewGameViewController: UITableViewDelegate {
 }
 
 
-// MARK: -
+// MARK: - AddPlayerViewControllerDelegate
 
-extension NewGameViewController {
+extension NewGameViewController: AddPlayerViewControllerDelegate {
     
+    func didAddPlayer(name: String) {
+        players.append(PlayerModel(name: name))
+        navigationController?.popViewController(animated: true)
+    }
     
 }

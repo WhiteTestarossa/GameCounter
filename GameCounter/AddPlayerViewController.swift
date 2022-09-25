@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol AddPlayerViewControllerDelegate: AnyObject {
+    func didAddPlayer(name: String)
+}
+
 class AddPlayerViewController: UIViewController {
+    
+    weak var delegate: AddPlayerViewControllerDelegate?
     
     private let nameTextField: PlayerNameTextField = {
         let textfield = PlayerNameTextField()
@@ -60,12 +66,21 @@ private extension AddPlayerViewController {
     
     func setBarButtons() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonPressed(_:)))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(backButtonPressed(_:)))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonPressed(_:)))
     }
+
+}
+
+// MARK: Action Methods
+
+private extension AddPlayerViewController {
     
-    @objc private func backButtonPressed(_ sender: UIBarButtonItem) {
+    @objc func backButtonPressed(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
+    @objc func addButtonPressed(_ sender: UIBarButtonItem) {
+        guard let name = nameTextField.text else { return }
+        delegate?.didAddPlayer(name: name)
+    }
 }
