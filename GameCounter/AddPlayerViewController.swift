@@ -36,6 +36,11 @@ class AddPlayerViewController: UIViewController {
         setupTextField()
         setBarButtons()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        nameTextField.becomeFirstResponder()
+    }
 
 }
 
@@ -80,7 +85,18 @@ private extension AddPlayerViewController {
     }
     
     @objc func addButtonPressed(_ sender: UIBarButtonItem) {
-        guard let name = nameTextField.text else { return }
+        guard let name = nameTextField.text, !name.isEmpty else {
+            showEmptyNameAlert()
+            return
+        }
         delegate?.didAddPlayer(name: name)
+    }
+    
+    func showEmptyNameAlert() {
+        let alert = UIAlertController(title: "Error", message: "Player's name is empty. Please fill in the field.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: .none)
+        
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
 }
