@@ -9,11 +9,22 @@ import UIKit
 
 class NewGameViewController: UIViewController {
     
-    var players: [PlayerModel] = [PlayerModel(name: "Felix"), PlayerModel(name: "Jesse")]
+    var players: [PlayerModel] = []
+    
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = "Game Counter"
+        label.font = UIFont(name: "Nunito-ExtraBold", size: 36.0)
+        label.textColor = UIColor.white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
     
     private var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
-        
+        print("TableVIew")
         tableView.backgroundColor = Colors.shared.backgroundForActive
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -22,13 +33,12 @@ class NewGameViewController: UIViewController {
     
     private var startGameButton = GameButton()
     
-    
+    private var heightConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
-        setupTableView()
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(PlayerTableViewCell.self, forCellReuseIdentifier: PlayerTableViewCell.identifier)
@@ -41,7 +51,6 @@ class NewGameViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
 //        var frame = tableView.frame
 //        frame.size.height = tableView.contentSize.height
 //         tableView.frame = frame
@@ -49,7 +58,12 @@ class NewGameViewController: UIViewController {
 //        tableView.reloadData()
 //        tableView.layoutIfNeeded()
 //        tableView.heightAnchor.constraint(equalToConstant: tableView.contentSize.height).isActive = true
-
+//        print(self.view.safeAreaLayoutGuide.layoutFrame.height)
+////        print(self.tableView.contentSize.height)
+//        print(self.tableView.frame.minY)
+//        print(self.tableView.frame.maxY)
+//        print(self.startGameButton.frame.minY)
+        
     }
 
 }
@@ -59,33 +73,35 @@ class NewGameViewController: UIViewController {
 private extension NewGameViewController {
     
     func setupUI() {
-        self.view.backgroundColor = Colors.shared.backgroundColor
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "Game Counter"
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
-                                                                             NSAttributedString.Key.font : UIFont.init(name: "Nunito-ExtraBold", size: 36.0)!]
-    }
-    
-    func setupTableView() {
+        self.view.backgroundColor = Colors.shared.backgroundColor
         self.tableView.layer.cornerRadius = 15.0
         self.tableView.separatorColor = Colors.shared.separatorColor
         self.tableView.allowsSelection = false
         
+        self.view.addSubview(titleLabel)
         self.view.addSubview(tableView)
         self.view.addSubview(startGameButton)
         
+        self.heightConstraint = tableView.heightAnchor.constraint(equalToConstant: 50.0 + 55.0)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
+            titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 41.0)
+        ])
+        
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
-            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 25.0),
+            tableView.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 25.0),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20.0),
-            tableView.heightAnchor.constraint(equalToConstant: 50.0 + 55.0*6)
+            heightConstraint
         ])
         
         NSLayoutConstraint.activate([
             startGameButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
             startGameButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20.0),
-            startGameButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -65.0),
+            startGameButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -65.0),
             startGameButton.heightAnchor.constraint(equalToConstant: 65.0)
         ])
     }
@@ -132,8 +148,13 @@ private extension NewGameViewController {
         players.remove(at: indexPath.row)
         self.tableView.performBatchUpdates({
             self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .top)
-        }, completion: nil)
+        }, completion: {_ in
+    
+        })
         
+        if (545.0 > (50.0 + 55.0 * Float(players.count + 1))) {
+            self.heightConstraint.constant -= 55.0
+        }
     }
 }
 
@@ -182,6 +203,13 @@ extension NewGameViewController: AddPlayerViewControllerDelegate {
     
     func didAddPlayer(name: String) {
         players.append(PlayerModel(name: name))
+        
+        if (tableView.frame.maxY + 55.0 > startGameButton.frame.minY) {
+            heightConstraint.constant = 545.0
+        } else {
+            heightConstraint.constant += 55.0
+        }
+      
         navigationController?.popViewController(animated: true)
     }
     

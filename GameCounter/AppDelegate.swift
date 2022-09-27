@@ -28,6 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             [NSAttributedString.Key.font: UIFont(name: "Nunito-ExtraBold", size: 17)!, NSAttributedString.Key.foregroundColor: Colors.shared.buttonColor], for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Nunito-ExtraBold", size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.gray], for: .highlighted)
         
+        UINavigationBar.appearance().barTintColor = Colors.shared.backgroundColor
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().shadowImage = UIImage()
+        
         self.window?.rootViewController = rootViewController()
     
         self.window?.makeKeyAndVisible()

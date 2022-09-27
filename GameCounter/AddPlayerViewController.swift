@@ -15,6 +15,17 @@ class AddPlayerViewController: UIViewController {
     
     weak var delegate: AddPlayerViewControllerDelegate?
     
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = "Add Player"
+        label.font = UIFont(name: "Nunito-ExtraBold", size: 36.0)
+        label.textColor = UIColor.white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     private let nameTextField: PlayerNameTextField = {
         let textfield = PlayerNameTextField()
         
@@ -33,13 +44,17 @@ class AddPlayerViewController: UIViewController {
         super.viewDidLoad()
 
         setupUI()
-        setupTextField()
         setBarButtons()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         nameTextField.becomeFirstResponder()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        nameTextField.resignFirstResponder()
     }
 
 }
@@ -51,29 +66,23 @@ private extension AddPlayerViewController {
     func setupUI() {
         self.view.backgroundColor = Colors.shared.backgroundColor
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "Add Player"
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
-                                                                             NSAttributedString.Key.font : UIFont.init(name: "Nunito-ExtraBold", size: 36.0)!]
-    }
-    
-    func setupTextField() {
+        self.view.addSubview(titleLabel)
         self.view.addSubview(nameTextField)
         
         NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
+            titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
             nameTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            nameTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 25.0),
+            nameTextField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 25.0),
             nameTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             nameTextField.heightAnchor.constraint(equalToConstant: 60.0)
             //FIXME: TO CONSTANTS
         ])
+        
     }
-    
-    func setBarButtons() {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonPressed(_:)))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonPressed(_:)))
-    }
-
 }
 
 // MARK: Action Methods
@@ -98,5 +107,10 @@ private extension AddPlayerViewController {
         
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func setBarButtons() {
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonPressed(_:)))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonPressed(_:)))
     }
 }
