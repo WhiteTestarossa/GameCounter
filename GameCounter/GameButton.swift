@@ -18,6 +18,12 @@ class GameButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
+    init(withTitle title: String) {
+        super.init(frame: .zero)
+        setup()
+        self.setTitle(title, for: .normal)
+    }
+    
     func setup() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = Colors.shared.buttonColor

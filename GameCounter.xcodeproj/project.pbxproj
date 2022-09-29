@@ -26,6 +26,8 @@
 		9A6CF42828DEF3DE0019652D /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42728DEF3DE0019652D /* PlayerModel.swift */; };
 		9A6CF42A28DF2EFF0019652D /* AddPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */; };
 		9A6CF42C28DF3B050019652D /* PlayerNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */; };
+		9A6E4D9128E31D85003EC80F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6E4D9028E31D85003EC80F /* GameViewController.swift */; };
+		9A6E4D9328E32873003EC80F /* PlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,8 @@
 		9A6CF42728DEF3DE0019652D /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
 		9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerViewController.swift; sourceTree = "<group>"; };
 		9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNameTextField.swift; sourceTree = "<group>"; };
+		9A6E4D9028E31D85003EC80F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,8 @@
 			children = (
 				9A46CF4628DD90E400118863 /* AppDelegate.swift */,
 				9A46CF5A28DD954E00118863 /* NewGameViewController.swift */,
+				9A6E4D9028E31D85003EC80F /* GameViewController.swift */,
+				9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */,
 				9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */,
 				9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */,
 				9A6CF42728DEF3DE0019652D /* PlayerModel.swift */,
@@ -196,10 +202,12 @@
 				9A6CF42828DEF3DE0019652D /* PlayerModel.swift in Sources */,
 				9A46CF7428DE2F4300118863 /* PlayerTableViewCell.swift in Sources */,
 				9A6CF42C28DF3B050019652D /* PlayerNameTextField.swift in Sources */,
+				9A6E4D9128E31D85003EC80F /* GameViewController.swift in Sources */,
 				9A46CF4728DD90E400118863 /* AppDelegate.swift in Sources */,
 				9A46CF5F28DD9A6300118863 /* Colors.swift in Sources */,
 				9A46CF5B28DD954E00118863 /* NewGameViewController.swift in Sources */,
 				9A6CF42628DEE9800019652D /* GameButton.swift in Sources */,
+				9A6E4D9328E32873003EC80F /* PlayerCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
