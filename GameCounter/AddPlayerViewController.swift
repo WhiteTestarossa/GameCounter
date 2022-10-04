@@ -69,17 +69,19 @@ private extension AddPlayerViewController {
         self.view.addSubview(titleLabel)
         self.view.addSubview(nameTextField)
         
+        let scaleMultiplier = self.view.frame.height / Sizes.canvasHeight
+        
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
-            titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+            titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: Sizes.titleHeight * scaleMultiplier)
         ])
         
         NSLayoutConstraint.activate([
             nameTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            nameTextField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 25.0),
+            nameTextField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: Sizes.textFieldTopSpace * scaleMultiplier),
             nameTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            nameTextField.heightAnchor.constraint(equalToConstant: 60.0)
-            //FIXME: TO CONSTANTS
+            nameTextField.heightAnchor.constraint(equalToConstant: Sizes.textFieldHeight * scaleMultiplier)
         ])
         
     }
@@ -112,5 +114,14 @@ private extension AddPlayerViewController {
     func setBarButtons() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonPressed(_:)))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addButtonPressed(_:)))
+    }
+}
+
+private extension AddPlayerViewController {
+    enum Sizes {
+        static let canvasHeight: CGFloat = 812.0
+        static let titleHeight: CGFloat = 41.0
+        static let textFieldHeight: CGFloat = 60.0
+        static let textFieldTopSpace: CGFloat = 25.0
     }
 }
