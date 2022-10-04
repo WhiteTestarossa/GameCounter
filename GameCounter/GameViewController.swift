@@ -9,6 +9,8 @@ import UIKit
 
 class GameViewController: UIViewController {
     
+    private var players: [PlayerModel] = []
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         
@@ -111,16 +113,30 @@ class GameViewController: UIViewController {
         
         return button
     }()
-
+    
+    private var timer: Timer?
+    private var seconds = 0
+    
+    init(with players: [PlayerModel]) {
+        super.init(nibName: nil, bundle: nil)
+        self.players = players
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        setBarButtons()
         
         collectionView.register(PlayerCollectionViewCell.self, forCellWithReuseIdentifier: PlayerCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        fireTimer()
     }
     
     override func viewDidLayoutSubviews() {
@@ -169,7 +185,6 @@ private extension GameViewController {
         
         let scaleMultiplier = self.view.frame.height / Sizes.canvasHeight
 
-        print(scaleMultiplier)
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
             titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -230,10 +245,32 @@ private extension GameViewController {
             undoButton.heightAnchor.constraint(equalToConstant: Sizes.undoButtonHeight * scaleMultiplier),
             undoButton.widthAnchor.constraint(equalToConstant: Sizes.undoButtonWidth * scaleMultiplier)
         ])
+        
+    }
+    
+    func setBarButtons() {
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "New Game", style: .plain, target: self, action: #selector(newGameButtonPressed(_:)))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Results", style: .plain, target: self, action: #selector(resultsButtonPressed(_:)))
+    }
+}
+
+// MARK: Action Methods
+
+extension GameViewController {
+    
+    @objc func newGameButtonPressed(_ sender: UIBarButtonItem) {
+        
+    }
+    
+    @objc func resultsButtonPressed(_ sender: UIBarButtonItem) {
+        
     }
     
     @objc func goToRoll(_ sender: UIButton) {
-        print("NAAAAAAAAH💀")
+        let diceVC = DiceViewController()
+        diceVC.modalPresentationStyle = .overCurrentContext
+        diceVC.modalTransitionStyle = .crossDissolve
+        self.present(diceVC, animated: true, completion: nil)
     }
     
     @objc func timerButtonPressed(_ sender: UIButton) {
@@ -242,9 +279,11 @@ private extension GameViewController {
         if (isRunning) {
             timerButton.setImage(UIImage(named: "Pause"), for: .normal)
             timerLabel.alpha = 1.0
+            fireTimer()
         } else {
             timerButton.setImage(UIImage(named: "Play"), for: .normal)
             timerLabel.alpha = 0.4
+            timer?.invalidate()
         }
     }
     
@@ -267,6 +306,27 @@ private extension GameViewController {
     }
 }
 
+// MARK: - Timer Action
+
+private extension GameViewController {
+    
+    func fireTimer() {
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimerLabel), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateTimerLabel() {
+        seconds += 1
+        timerLabel.text = timeString(time: TimeInterval(seconds))
+    }
+    
+    func timeString(time: TimeInterval) -> String {
+        let minutes = Int(time) / 60 % 60
+        let seconds = Int(time) % 60
+        return String(format: "%02i:%02i", minutes,seconds)
+    }
+    
+}
+
 // MARK: - CollectionViewDelegate
 
 extension GameViewController: UICollectionViewDelegate {
@@ -277,12 +337,15 @@ extension GameViewController: UICollectionViewDelegate {
 
 extension GameViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        players.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlayerCollectionViewCell.identifier, for: indexPath)
         
+        if let cell = cell as? PlayerCollectionViewCell {
+            cell.setNameAndScore(name: players[indexPath.row].name, score: players[indexPath.row].score)
+        }
         return cell
     }
 
@@ -291,11 +354,10 @@ extension GameViewController: UICollectionViewDataSource {
 // MARK: - CollectionViewDelegateFlowLayout
 
 extension GameViewController: UICollectionViewDelegateFlowLayout {
-    //FIXME: TO CONSTANTS
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = Sizes.collectionViewCellHeight * UIScreen.main.bounds.height / Sizes.canvasHeight
         let width = Sizes.collectionViewCellWidth * UIScreen.main.bounds.width / Sizes.canvasWidth
-        print(width)
         return CGSize(width: width, height: height)
     }
     

@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func rootViewController() -> UIViewController {
-        let newGameVC = GameViewController()
+        let newGameVC = GameViewController(with: [PlayerModel(name: "Felix"), PlayerModel(name: "Josh"), PlayerModel(name: "Daniel")])
         let navigationController = UINavigationController(rootViewController: newGameVC)
         
         return navigationController

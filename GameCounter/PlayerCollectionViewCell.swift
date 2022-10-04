@@ -60,5 +60,10 @@ class PlayerCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    func setNameAndScore(name: String, score: Int) {
+        self.nameLabel.text = name
+        self.scoreLabel.text = String(score)
+    }
+    
     
 }

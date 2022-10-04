@@ -10,6 +10,7 @@ import Foundation
 struct PlayerModel {
     
     var name: String = "Felix"
+    var score: Int = 0
     
     init(name: String) {
         self.name = name

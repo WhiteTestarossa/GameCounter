@@ -82,6 +82,8 @@ private extension NewGameViewController {
         self.view.addSubview(tableView)
         self.view.addSubview(startGameButton)
         
+        startGameButton.addTarget(self, action: #selector(startButtonPressed(_:)), for: .touchUpInside)
+        
         self.heightConstraint = tableView.heightAnchor.constraint(equalToConstant: Sizes.tableViewInitialHeight * scaleMultiplier)
         
         NSLayoutConstraint.activate([
@@ -153,6 +155,11 @@ private extension NewGameViewController {
             self.heightConstraint.constant -= Sizes.cellHeight * scaleMultiplier
         }
         
+    }
+    
+    @objc func startButtonPressed(_ sender: UIButton) {
+        let gameVC = GameViewController(with: players)
+        self.navigationController?.setViewControllers([gameVC], animated: true)
     }
 }
 
