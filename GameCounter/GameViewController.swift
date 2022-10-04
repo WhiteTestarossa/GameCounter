@@ -97,7 +97,7 @@ class GameViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
-        stackView.spacing = 16.56
+        stackView.spacing = 15
         
         return stackView
     }()
@@ -130,10 +130,8 @@ class GameViewController: UIViewController {
         for button in scoreButtons {
             button.layer.cornerRadius = button.bounds.height / 2
             button.layer.shadowOffset = CGSize(width: 0, height: 0)
-
         }
     }
-    
 
 }
 
@@ -155,13 +153,12 @@ private extension GameViewController {
         self.view.addSubview(scoreStackView)
         self.view.addSubview(undoButton)
         
-        diceButton.addTarget(self, action: #selector(goToRoll(_:)), for: .touchUpInside)
-        
         plusOneButton.setTitle("+1", for: .normal)
         plusOneButton.titleLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 40.0)
         plusOneButton.layer.shadowOffset = CGSize(width: 0, height: 0)
-        plusOneButton.addTarget(self, action: #selector(plusOneButtonPressed(_:)), for: .touchUpInside)
         
+        diceButton.addTarget(self, action: #selector(goToRoll(_:)), for: .touchUpInside)
+        plusOneButton.addTarget(self, action: #selector(plusOneButtonPressed(_:)), for: .touchUpInside)
         previousButton.addTarget(self, action: #selector(previousButtonPressed(_:)), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(nextButtonPressed(_:)), for: .touchUpInside)
         undoButton.addTarget(self, action: #selector(undoButtonPressed(_:)), for: .touchUpInside)
@@ -170,63 +167,68 @@ private extension GameViewController {
             scoreStackView.addArrangedSubview(button)
         }
         
+        let scaleMultiplier = self.view.frame.height / Sizes.canvasHeight
+
+        print(scaleMultiplier)
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
             titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 41.0)
+            titleLabel.heightAnchor.constraint(equalToConstant: Sizes.titleHeight * scaleMultiplier)
         ])
         
         NSLayoutConstraint.activate([
             diceButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             diceButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20.0),
-            diceButton.heightAnchor.constraint(equalToConstant: 30.0),
-            diceButton.widthAnchor.constraint(equalToConstant: 30.0)
+            diceButton.heightAnchor.constraint(equalToConstant: Sizes.diceSideSize * scaleMultiplier),
+            diceButton.widthAnchor.constraint(equalTo: diceButton.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
             timerLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            timerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 29.0)
+            timerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Sizes.timerLabelTopSpace * scaleMultiplier)
         ])
         
         NSLayoutConstraint.activate([
-            timerButton.leadingAnchor.constraint(equalTo: timerLabel.trailingAnchor, constant: 20.0),
+            timerButton.leadingAnchor.constraint(equalTo: timerLabel.trailingAnchor, constant: Sizes.timeButtonLeadingSpace),
             timerButton.centerYAnchor.constraint(equalTo: timerLabel.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 165.0),
+            collectionView.topAnchor.constraint(equalTo: timerLabel.bottomAnchor, constant: Sizes.collectionViewTopSpace * scaleMultiplier),
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -269.0)
+            collectionView.heightAnchor.constraint(equalToConstant: Sizes.colletionViewHeight * scaleMultiplier)
         ])
         
         NSLayoutConstraint.activate([
             plusOneButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            plusOneButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 28.0),
-            plusOneButton.widthAnchor.constraint(equalToConstant: 90.0),
-            plusOneButton.heightAnchor.constraint(equalToConstant: 90.0)
+            plusOneButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: Sizes.plusOneButtonTopSpace),
+            plusOneButton.heightAnchor.constraint(equalToConstant: Sizes.plusOneButtonSide * scaleMultiplier),
+            plusOneButton.widthAnchor.constraint(equalTo: plusOneButton.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            previousButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 46.0),
+            previousButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: Sizes.previousButtonLeadingSpace),
             previousButton.centerYAnchor.constraint(equalTo: plusOneButton.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            nextButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -50.0),
+            nextButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -Sizes.nextButtonTrailingSpace),
             nextButton.centerYAnchor.constraint(equalTo: plusOneButton.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
             scoreStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0),
-            scoreStackView.topAnchor.constraint(equalTo: plusOneButton.bottomAnchor, constant: 22.0),
+            scoreStackView.topAnchor.constraint(equalTo: plusOneButton.bottomAnchor, constant: Sizes.stackViewTopSpace * scaleMultiplier),
             scoreStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20.0),
-            scoreStackView.heightAnchor.constraint(equalToConstant: 55.1432292)
+            scoreStackView.heightAnchor.constraint(equalToConstant: Sizes.stackViewHeight * scaleMultiplier)
         ])
         
         NSLayoutConstraint.activate([
             undoButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 40.0),
-            undoButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -32.0)
+            undoButton.topAnchor.constraint(equalTo: scoreStackView.bottomAnchor, constant: Sizes.undoButtonTopSpace * scaleMultiplier),
+            undoButton.heightAnchor.constraint(equalToConstant: Sizes.undoButtonHeight * scaleMultiplier),
+            undoButton.widthAnchor.constraint(equalToConstant: Sizes.undoButtonWidth * scaleMultiplier)
         ])
     }
     
@@ -291,19 +293,56 @@ extension GameViewController: UICollectionViewDataSource {
 extension GameViewController: UICollectionViewDelegateFlowLayout {
     //FIXME: TO CONSTANTS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 255.0, height: 300.0)
+        let height = Sizes.collectionViewCellHeight * UIScreen.main.bounds.height / Sizes.canvasHeight
+        let width = Sizes.collectionViewCellWidth * UIScreen.main.bounds.width / Sizes.canvasWidth
+        print(width)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20.0
+        return Sizes.lineSpacing * UIScreen.main.bounds.width / Sizes.canvasWidth
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         let cellWidth = self.collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAt: IndexPath(item: 0, section: 0)).width
-        print(cellWidth)
         let sideInset = (view.frame.width - cellWidth) / 2
-        print(sideInset)
         return UIEdgeInsets(top: 0, left: sideInset, bottom: 0, right: sideInset)
+    }
+}
+
+extension GameViewController {
+    enum Sizes {
+        static let canvasHeight: CGFloat = 812.0
+        static let canvasWidth: CGFloat = 375.0
+        
+        static let titleHeight: CGFloat = 41.0
+        static let diceSideSize: CGFloat = 30.0
+        
+        static let timerLabelHeight: CGFloat = 41.0
+        static let timerLabelTopSpace: CGFloat = 29.0
+        
+        static let timeButtonLeadingSpace: CGFloat = 20.0
+        
+        static let collectionViewTopSpace: CGFloat = 42.0
+        static let colletionViewHeight: CGFloat = 305.0
+        
+        static let collectionViewCellHeight: CGFloat = 300.0
+        static let collectionViewCellWidth: CGFloat = 255.0
+        static let lineSpacing: CGFloat = 20.0
+        
+        static let plusOneButtonTopSpace: CGFloat = 28.0
+        static let plusOneButtonSide: CGFloat = 90.0
+        
+        static let previousButtonLeadingSpace: CGFloat = 46.0
+        static let nextButtonTrailingSpace: CGFloat = 50.0
+        
+        static let stackViewTopSpace: CGFloat = 22.0
+        static let stackViewHeight: CGFloat = 55.0
+        
+        static let undoButtonLeadingSpace: CGFloat = 40.0
+        static let undoButtonTopSpace: CGFloat = 23.0
+        static let undoButtonHeight: CGFloat = 20.0
+        static let undoButtonWidth: CGFloat = 15.0
     }
 }
