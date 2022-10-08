@@ -27,6 +27,7 @@
 		9A6CF42828DEF3DE0019652D /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42728DEF3DE0019652D /* PlayerModel.swift */; };
 		9A6CF42A28DF2EFF0019652D /* AddPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */; };
 		9A6CF42C28DF3B050019652D /* PlayerNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */; };
+		9A6D5F7328EF16AA003BBF4A /* ScoreHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6D5F7228EF16AA003BBF4A /* ScoreHandling.swift */; };
 		9A6E4D9128E31D85003EC80F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6E4D9028E31D85003EC80F /* GameViewController.swift */; };
 		9A6E4D9328E32873003EC80F /* PlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -54,6 +55,7 @@
 		9A6CF42728DEF3DE0019652D /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
 		9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerViewController.swift; sourceTree = "<group>"; };
 		9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNameTextField.swift; sourceTree = "<group>"; };
+		9A6D5F7228EF16AA003BBF4A /* ScoreHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreHandling.swift; sourceTree = "<group>"; };
 		9A6E4D9028E31D85003EC80F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,6 +94,7 @@
 				9A46CF5A28DD954E00118863 /* NewGameViewController.swift */,
 				9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */,
 				9A6E4D9028E31D85003EC80F /* GameViewController.swift */,
+				9A6D5F7228EF16AA003BBF4A /* ScoreHandling.swift */,
 				9A210B3828EC97CD00254408 /* DiceViewController.swift */,
 				9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */,
 				9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */,
@@ -202,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A6CF42A28DF2EFF0019652D /* AddPlayerViewController.swift in Sources */,
+				9A6D5F7328EF16AA003BBF4A /* ScoreHandling.swift in Sources */,
 				9A6CF42828DEF3DE0019652D /* PlayerModel.swift in Sources */,
 				9A46CF7428DE2F4300118863 /* PlayerTableViewCell.swift in Sources */,
 				9A6CF42C28DF3B050019652D /* PlayerNameTextField.swift in Sources */,

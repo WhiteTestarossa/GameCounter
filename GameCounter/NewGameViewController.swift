@@ -9,7 +9,7 @@ import UIKit
 
 class NewGameViewController: UIViewController {
     
-    var players: [PlayerModel] = []
+    var scoreHandler: ScoreHandling
     
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -38,7 +38,16 @@ class NewGameViewController: UIViewController {
     private var cellsNumber: Int!
     private var scaleMultiplier: CGFloat = UIScreen.main.bounds.height / Sizes.canvasHeight
     private var maxHeight: CGFloat!
-
+    
+    init(scoreHandler: ScoreHandling) {
+        self.scoreHandler = scoreHandler
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -114,14 +123,14 @@ private extension NewGameViewController {
 extension NewGameViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        players.count
+        scoreHandler.players.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PlayerTableViewCell.identifier, for: indexPath) as! PlayerTableViewCell
         
         cell.switchToDeleteType()
-        cell.textLabel?.text = players[indexPath.row].name
+        cell.textLabel?.text = scoreHandler.players[indexPath.row].name
         cell.iconAction = deleteIconTapped(_:)
         cell.separatorInset = UIEdgeInsets(top: 0, left: 20.0, bottom: 0, right: 0)
         
@@ -144,21 +153,22 @@ private extension NewGameViewController {
         let point = sender.convert(sender.center, to: tableView)
         guard let indexPath = tableView.indexPathForRow(at: point) else { return }
         
-        players.remove(at: indexPath.row)
+        scoreHandler.players.remove(at: indexPath.row)
+        
         self.tableView.performBatchUpdates({
             self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .top)
         }, completion: {_ in
     
         })
 
-        if (players.count < cellsNumber) {
+        if (scoreHandler.players.count < cellsNumber) {
             self.heightConstraint.constant -= Sizes.cellHeight * scaleMultiplier
         }
         
     }
     
     @objc func startButtonPressed(_ sender: UIButton) {
-        let gameVC = GameViewController(with: players)
+        let gameVC = GameViewController(scoreHandler: scoreHandler)
         self.navigationController?.setViewControllers([gameVC], animated: true)
     }
 }
@@ -259,7 +269,7 @@ extension NewGameViewController: UITableViewDelegate {
 extension NewGameViewController: AddPlayerViewControllerDelegate {
     
     func didAddPlayer(name: String) {
-        players.append(PlayerModel(name: name))
+        scoreHandler.players.append(PlayerModel(name: name))
 
         if (tableView.frame.height + Sizes.cellHeight * scaleMultiplier < maxHeight) {
             heightConstraint.constant += Sizes.cellHeight * scaleMultiplier

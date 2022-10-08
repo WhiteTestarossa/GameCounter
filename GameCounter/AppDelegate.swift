@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             // Fallback on earlier versions
         }
+        //Settings lightbar
         
         UIBarButtonItem.appearance().setTitleTextAttributes(
             [NSAttributedString.Key.font: UIFont(name: "Nunito-ExtraBold", size: 17)!, NSAttributedString.Key.foregroundColor: Colors.shared.buttonColor], for: .normal)
@@ -40,7 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func rootViewController() -> UIViewController {
-        let newGameVC = GameViewController(with: [PlayerModel(name: "Felix"), PlayerModel(name: "Josh"), PlayerModel(name: "Daniel")])
+//        let newGameVC = GameViewController(with: [PlayerModel(name: "Felix"), PlayerModel(name: "Josh"), PlayerModel(name: "Daniel")])
+        let scoreHandler = ScoreHandling()
+        let newGameVC = NewGameViewController(scoreHandler: scoreHandler)
         let navigationController = UINavigationController(rootViewController: newGameVC)
         
         return navigationController

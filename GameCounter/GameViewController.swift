@@ -9,7 +9,7 @@ import UIKit
 
 class GameViewController: UIViewController {
     
-    private var players: [PlayerModel] = []
+    var scoreHandler: ScoreHandling
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -91,6 +91,7 @@ class GameViewController: UIViewController {
     }()
     
     private let scoreButtons: [GameButton] = [GameButton(withTitle: "-10"), GameButton(withTitle: "-5"), GameButton(withTitle: "-1"), GameButton(withTitle: "+5"), GameButton(withTitle: "+10")]
+    private let scoreButtonsValues: [Int] = [-10, -5, -1, 5, 10]
     
     private let scoreStackView: UIStackView = {
         let stackView = UIStackView()
@@ -117,9 +118,9 @@ class GameViewController: UIViewController {
     private var timer: Timer?
     private var seconds = 0
     
-    init(with players: [PlayerModel]) {
+    init(scoreHandler: ScoreHandling) {
+        self.scoreHandler = scoreHandler
         super.init(nibName: nil, bundle: nil)
-        self.players = players
     }
     
     required init?(coder: NSCoder) {
@@ -135,6 +136,8 @@ class GameViewController: UIViewController {
         collectionView.register(PlayerCollectionViewCell.self, forCellWithReuseIdentifier: PlayerCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.isPagingEnabled = false
+        collectionView.showsHorizontalScrollIndicator = false
         
         fireTimer()
     }
@@ -174,13 +177,14 @@ private extension GameViewController {
         plusOneButton.layer.shadowOffset = CGSize(width: 0, height: 0)
         
         diceButton.addTarget(self, action: #selector(goToRoll(_:)), for: .touchUpInside)
-        plusOneButton.addTarget(self, action: #selector(plusOneButtonPressed(_:)), for: .touchUpInside)
+        plusOneButton.addTarget(self, action: #selector(plusScoreButtonPressed(_:)), for: .touchUpInside)
         previousButton.addTarget(self, action: #selector(previousButtonPressed(_:)), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(nextButtonPressed(_:)), for: .touchUpInside)
         undoButton.addTarget(self, action: #selector(undoButtonPressed(_:)), for: .touchUpInside)
         
         for button in scoreButtons {
             scoreStackView.addArrangedSubview(button)
+            button.addTarget(self, action: #selector(plusScoreButtonPressed(_:)), for: .touchUpInside)
         }
         
         let scaleMultiplier = self.view.frame.height / Sizes.canvasHeight
@@ -287,22 +291,47 @@ extension GameViewController {
         }
     }
     
-    @objc func plusOneButtonPressed(_ sender: GameButton) {
+    @objc func plusScoreButtonPressed(_ sender: GameButton) {
+        if (sender == plusOneButton) {
+            plusScore(score: 1)
+        }
         
+        for (index, button) in scoreButtons.enumerated() {
+            if sender == button {
+                plusScore(score: scoreButtonsValues[index])
+            }
+        }
+    }
+
+    func plusScore(score: Int) {
+        scoreHandler.currentPlayer.score += score
+        collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
+        if (scoreHandler.index != scoreHandler.players.count - 1 ) {
+            scoreHandler.index += 1
+        } else if (self.scoreHandler.index + 1 >= scoreHandler.players.count - 1) {
+            scoreHandler.index = 0
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
+            collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
+        }
     }
     
     @objc func previousButtonPressed(_ sender: UIButton) {
-        
+        if (scoreHandler.index != 0) {
+            scoreHandler.index -= 1
+            collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
+        }
     }
     
     @objc func nextButtonPressed(_ sender: UIButton) {
-        
+        if (scoreHandler.index != scoreHandler.players.count - 1) {
+            scoreHandler.index += 1
+            collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
+        }
     }
     
-    //FIXME: BUTTONS FOR STACKVIEW
-    
     @objc func undoButtonPressed(_ sender: UIButton) {
-        
+     //FIXME: HISTORY
     }
 }
 
@@ -331,20 +360,44 @@ private extension GameViewController {
 
 extension GameViewController: UICollectionViewDelegate {
     
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)  {
+
+        let pageWidth = (Sizes.collectionViewCellWidth + Sizes.lineSpacing) * (Sizes.canvasWidth / UIScreen.main.bounds.width)
+        let itemIndex = (targetContentOffset.pointee.x) / pageWidth
+        print(velocity.x)
+        //FIXME: WIDER DEVIDER
+        if (velocity.x == 0) {
+            targetContentOffset.pointee = CGPoint(x: round(itemIndex) * pageWidth, y: targetContentOffset.pointee.y)
+            print(round(itemIndex) * pageWidth)
+        } else if (velocity.x > 0) {
+            if (scoreHandler.index != scoreHandler.players.count - 1) {
+                scoreHandler.index += 1
+                targetContentOffset.pointee = CGPoint(x: CGFloat(scoreHandler.index) * pageWidth, y: targetContentOffset.pointee.y)
+            }
+        } else {
+            if (scoreHandler.index != 0) {
+                scoreHandler.index -= 1
+                targetContentOffset.pointee = CGPoint(x: CGFloat(scoreHandler.index) * pageWidth, y: targetContentOffset.pointee.y)
+            }
+        }
+        print(scoreHandler.index)
+     
+    }
+
 }
 
 // MARK: - CollectionViewDataSource
 
 extension GameViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        players.count
+        scoreHandler.players.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlayerCollectionViewCell.identifier, for: indexPath)
         
         if let cell = cell as? PlayerCollectionViewCell {
-            cell.setNameAndScore(name: players[indexPath.row].name, score: players[indexPath.row].score)
+            cell.setNameAndScore(name: scoreHandler.players[indexPath.row].name, score: scoreHandler.players[indexPath.row].score)
         }
         return cell
     }
