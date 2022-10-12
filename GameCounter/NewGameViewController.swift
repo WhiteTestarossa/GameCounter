@@ -169,7 +169,10 @@ private extension NewGameViewController {
     
     @objc func startButtonPressed(_ sender: UIButton) {
         let gameVC = GameViewController(scoreHandler: scoreHandler)
-        self.navigationController?.setViewControllers([gameVC], animated: true)
+        AppDelegate.shared.rootViewController.setViewControllers([gameVC], animated: true)
+        if ((self.navigationController) != nil) {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 

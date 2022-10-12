@@ -33,21 +33,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().shadowImage = UIImage()
         
-        self.window?.rootViewController = rootViewController()
-    
+        self.window?.rootViewController = getRootViewController()
         self.window?.makeKeyAndVisible()
         
         return true
     }
     
-    func rootViewController() -> UIViewController {
-//        let newGameVC = GameViewController(with: [PlayerModel(name: "Felix"), PlayerModel(name: "Josh"), PlayerModel(name: "Daniel")])
+    func getRootViewController() -> UIViewController {
         let scoreHandler = ScoreHandling()
         let newGameVC = NewGameViewController(scoreHandler: scoreHandler)
         let navigationController = UINavigationController(rootViewController: newGameVC)
-        
+        navigationController.setViewControllers([newGameVC], animated: true)
         return navigationController
     }
 
+}
+
+extension AppDelegate {
+    static var shared: AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+    var rootViewController: UINavigationController {
+        get {
+            return window?.rootViewController as! UINavigationController
+        }
+        set {
+            window?.rootViewController = newValue
+        }
+    }
 }
 

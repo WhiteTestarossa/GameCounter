@@ -267,7 +267,8 @@ extension GameViewController {
     }
     
     @objc func resultsButtonPressed(_ sender: UIBarButtonItem) {
-        
+        let resultsVC = ResultsViewController(scoreHandler: scoreHandler)
+        self.navigationController?.pushViewController(resultsVC, animated: true)
     }
     
     @objc func goToRoll(_ sender: UIButton) {
@@ -305,6 +306,8 @@ extension GameViewController {
 
     func plusScore(score: Int) {
         scoreHandler.currentPlayer.score += score
+        scoreHandler.history.append((scoreHandler.currentPlayer, score))
+        
         collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
         if (scoreHandler.index != scoreHandler.players.count - 1 ) {
             scoreHandler.index += 1

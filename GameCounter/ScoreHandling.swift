@@ -19,5 +19,13 @@ class ScoreHandling {
             players[index] = newValue
         }
     }
+    
+    var results: [PlayerModel] {
+        get {
+            players.sorted(by: {$0.score > $1.score})
+        }
+    }
+    
+    var history: [(PlayerModel, Int)] = []
 
 }
