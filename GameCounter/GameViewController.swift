@@ -263,7 +263,8 @@ private extension GameViewController {
 extension GameViewController {
     
     @objc func newGameButtonPressed(_ sender: UIBarButtonItem) {
-        
+        let newGameVC = NewGameViewController(scoreHandler: ScoreHandling())
+        self.navigationController?.present(UINavigationController(rootViewController: newGameVC), animated: true, completion: nil)
     }
     
     @objc func resultsButtonPressed(_ sender: UIBarButtonItem) {
@@ -307,7 +308,7 @@ extension GameViewController {
     func plusScore(score: Int) {
         scoreHandler.currentPlayer.score += score
         scoreHandler.history.append((scoreHandler.currentPlayer, score))
-        
+        print(score)
         collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
         if (scoreHandler.index != scoreHandler.players.count - 1 ) {
             scoreHandler.index += 1
@@ -334,7 +335,17 @@ extension GameViewController {
     }
     
     @objc func undoButtonPressed(_ sender: UIButton) {
-     //FIXME: HISTORY
+        if (!scoreHandler.history.isEmpty) {
+            if (scoreHandler.index != 0) {
+                scoreHandler.index -= 1
+            } else if (self.scoreHandler.index - 1 <= 0) {
+                scoreHandler.index = scoreHandler.players.count - 1
+            }
+            scoreHandler.currentPlayer.score -= scoreHandler.history.last!.1
+            scoreHandler.history.removeLast()
+            collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
+        }
+        collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
     }
 }
 
