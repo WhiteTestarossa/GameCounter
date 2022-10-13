@@ -325,6 +325,7 @@ extension GameViewController {
             scoreHandler.index -= 1
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
         }
+        print(collectionView.contentOffset.x)
     }
     
     @objc func nextButtonPressed(_ sender: UIButton) {
@@ -332,6 +333,7 @@ extension GameViewController {
             scoreHandler.index += 1
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
         }
+        print(collectionView.contentOffset.x)
     }
     
     @objc func undoButtonPressed(_ sender: UIButton) {
@@ -375,11 +377,10 @@ private extension GameViewController {
 extension GameViewController: UICollectionViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)  {
-
-        let pageWidth = (Sizes.collectionViewCellWidth + Sizes.lineSpacing) * (Sizes.canvasWidth / UIScreen.main.bounds.width)
+        
+        let pageWidth = (Sizes.collectionViewCellWidth + Sizes.lineSpacing) * UIScreen.main.bounds.width / Sizes.canvasWidth
         let itemIndex = (targetContentOffset.pointee.x) / pageWidth
-        print(velocity.x)
-        //FIXME: WIDER DEVIDER
+        
         if (velocity.x == 0) {
             targetContentOffset.pointee = CGPoint(x: round(itemIndex) * pageWidth, y: targetContentOffset.pointee.y)
             print(round(itemIndex) * pageWidth)
@@ -394,10 +395,7 @@ extension GameViewController: UICollectionViewDelegate {
                 targetContentOffset.pointee = CGPoint(x: CGFloat(scoreHandler.index) * pageWidth, y: targetContentOffset.pointee.y)
             }
         }
-        print(scoreHandler.index)
-     
     }
-
 }
 
 // MARK: - CollectionViewDataSource
@@ -435,7 +433,7 @@ extension GameViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         let cellWidth = self.collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAt: IndexPath(item: 0, section: 0)).width
-        let sideInset = (view.frame.width - cellWidth) / 2
+        let sideInset = (view.frame.width - cellWidth) / 2 * UIScreen.main.bounds.width / Sizes.canvasWidth
         return UIEdgeInsets(top: 0, left: sideInset, bottom: 0, right: sideInset)
     }
 }
