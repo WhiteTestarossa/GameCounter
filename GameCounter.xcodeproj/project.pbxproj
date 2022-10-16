@@ -99,22 +99,11 @@
 			isa = PBXGroup;
 			children = (
 				9A46CF4628DD90E400118863 /* AppDelegate.swift */,
-				9A46CF5A28DD954E00118863 /* NewGameViewController.swift */,
-				9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */,
-				9A6E4D9028E31D85003EC80F /* GameViewController.swift */,
-				9A761C6F28F555460054FF16 /* ResultsViewController.swift */,
-				9A761C7128F564B10054FF16 /* PlayerResultView.swift */,
-				9A761C7328F6BDC50054FF16 /* HistoryCell.swift */,
-				9A6C395A28F9585D00ED895C /* HistoryModel.swift */,
-				9A6CF42728DEF3DE0019652D /* PlayerModel.swift */,
-				9A6D5F7228EF16AA003BBF4A /* ScoreHandling.swift */,
-				9A210B3828EC97CD00254408 /* DiceViewController.swift */,
-				9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */,
-				9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */,
-				9A46CF7328DE2F4300118863 /* PlayerTableViewCell.swift */,
-				9A6CF42528DEE9800019652D /* GameButton.swift */,
+				9A6E803B28FCA0B4007CA823 /* Controller */,
+				9A6E803C28FCA0D3007CA823 /* View */,
+				9A6E803D28FCA0E2007CA823 /* Model */,
 				9A46CF6028DDB6F200118863 /* Fonts */,
-				9A46CF5E28DD9A6300118863 /* Colors.swift */,
+				9A6E803E28FCA106007CA823 /* Helpers */,
 				9A46CF4F28DD90E600118863 /* Assets.xcassets */,
 				9A46CF5128DD90E600118863 /* LaunchScreen.storyboard */,
 				9A46CF5428DD90E600118863 /* Info.plist */,
@@ -136,6 +125,49 @@
 				9A46CF6628DDB72200118863 /* Nunito-VariableFont_wght.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		9A6E803B28FCA0B4007CA823 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9A46CF5A28DD954E00118863 /* NewGameViewController.swift */,
+				9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */,
+				9A6E4D9028E31D85003EC80F /* GameViewController.swift */,
+				9A761C6F28F555460054FF16 /* ResultsViewController.swift */,
+				9A210B3828EC97CD00254408 /* DiceViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		9A6E803C28FCA0D3007CA823 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9A761C7128F564B10054FF16 /* PlayerResultView.swift */,
+				9A761C7328F6BDC50054FF16 /* HistoryCell.swift */,
+				9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */,
+				9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */,
+				9A46CF7328DE2F4300118863 /* PlayerTableViewCell.swift */,
+				9A6CF42528DEE9800019652D /* GameButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9A6E803D28FCA0E2007CA823 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9A6D5F7228EF16AA003BBF4A /* ScoreHandling.swift */,
+				9A6CF42728DEF3DE0019652D /* PlayerModel.swift */,
+				9A6C395A28F9585D00ED895C /* HistoryModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9A6E803E28FCA106007CA823 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9A46CF5E28DD9A6300118863 /* Colors.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
