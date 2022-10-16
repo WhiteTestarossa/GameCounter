@@ -92,6 +92,8 @@ private extension NewGameViewController {
         self.view.addSubview(startGameButton)
         
         startGameButton.addTarget(self, action: #selector(startButtonPressed(_:)), for: .touchUpInside)
+        startGameButton.isEnabled = false
+        startGameButton.alpha = 0.5
         
         self.heightConstraint = tableView.heightAnchor.constraint(equalToConstant: Sizes.tableViewInitialHeight * scaleMultiplier)
         
@@ -169,6 +171,10 @@ private extension NewGameViewController {
             self.heightConstraint.constant -= Sizes.cellHeight * scaleMultiplier
         }
         
+        if (scoreHandler.players.count == 0) {
+            startGameButton.isEnabled = false
+            startGameButton.alpha = 0.5
+        }
     }
     
     @objc func startButtonPressed(_ sender: UIButton) {
@@ -287,7 +293,12 @@ extension NewGameViewController: AddPlayerViewControllerDelegate {
         } else {
             heightConstraint.constant = maxHeight
         }
-      
+        
+        if (scoreHandler.players.count > 0) {
+            startGameButton.isEnabled = true
+            startGameButton.alpha = 1.0
+        }
+        
         navigationController?.popViewController(animated: true)
     }
     
