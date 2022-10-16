@@ -313,14 +313,6 @@ extension GameViewController {
         scoreHandler.currentPlayer.score += score
         scoreHandler.history.append(HistoryModel(player: scoreHandler.currentPlayer, scoreChange: score))
         collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
-        if (scoreHandler.index != scoreHandler.players.count - 1 ) {
-            scoreHandler.index += 1
-        } else if (self.scoreHandler.index + 1 >= scoreHandler.players.count - 1) {
-            scoreHandler.index = 0
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
-            collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
-        }
         stopTimer()
         fireTimer()
     }
