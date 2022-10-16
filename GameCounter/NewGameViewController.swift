@@ -114,6 +114,10 @@ private extension NewGameViewController {
             startGameButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -Sizes.startButtonBottomConstaintConst * scaleMultiplier),
             startGameButton.heightAnchor.constraint(equalToConstant: Sizes.startButtonHeight * scaleMultiplier)
         ])
+        
+        if let rootViewController = UIApplication.shared.delegate?.window??.rootViewController, rootViewController !== navigationController {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancel(_:)))
+        }
 
     }
 }
@@ -173,6 +177,10 @@ private extension NewGameViewController {
         if ((self.navigationController) != nil) {
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    @objc func cancel(_ sender: UIBarButtonItem) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 

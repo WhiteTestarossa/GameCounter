@@ -177,6 +177,7 @@ extension ResultsViewController: UITableViewDataSource {
         
         cell.backgroundColor = Colors.shared.backgroundForActive
         cell.textLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 20)
+        cell.textLabel?.textColor = .white
         cell.textLabel?.text = history[indexPath.row].player.name
         cell.detailTextLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 20)
         cell.detailTextLabel?.textColor = .white

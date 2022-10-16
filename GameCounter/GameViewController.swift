@@ -138,6 +138,7 @@ class GameViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.isPagingEnabled = false
         collectionView.showsHorizontalScrollIndicator = false
+        timer?.invalidate()
         fireTimer()
         
         let notificationCenter = NotificationCenter.default
@@ -320,12 +321,16 @@ extension GameViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
         }
+        stopTimer()
+        fireTimer()
     }
     
     @objc func previousButtonPressed(_ sender: UIButton) {
         if (scoreHandler.index != 0) {
             scoreHandler.index -= 1
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
+            stopTimer()
+            fireTimer()
         }
     }
     
@@ -333,19 +338,22 @@ extension GameViewController {
         if (scoreHandler.index != scoreHandler.players.count - 1) {
             scoreHandler.index += 1
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
+            stopTimer()
+            fireTimer()
         }
     }
     
     @objc func undoButtonPressed(_ sender: UIButton) {
         if (!scoreHandler.history.isEmpty) {
-            if (scoreHandler.index != 0) {
-                scoreHandler.index -= 1
-            } else if (self.scoreHandler.index - 1 <= 0) {
-                scoreHandler.index = scoreHandler.players.count - 1
-            }
+            let player  = scoreHandler.history.last?.player
+            let indexOfPlayer = scoreHandler.players.firstIndex(of: player!)
+            let intIndex: Int = scoreHandler.players.distance(from: scoreHandler.players.startIndex, to: indexOfPlayer!)
+            scoreHandler.index = intIndex
             scoreHandler.currentPlayer.score -= scoreHandler.history.last!.scoreChange
             scoreHandler.history.removeLast()
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
+            stopTimer()
+            fireTimer()
         }
         collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
     }
@@ -368,6 +376,17 @@ private extension GameViewController {
     
     func fireTimer() {
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimerLabel), userInfo: nil, repeats: true)
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+        resetTimerLabel()
+    }
+    
+    func resetTimerLabel() {
+        seconds = 0
+        timerLabel.text = timeString(time: TimeInterval(seconds))
     }
     
     @objc func updateTimerLabel() {
