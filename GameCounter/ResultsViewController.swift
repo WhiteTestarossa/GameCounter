@@ -173,15 +173,14 @@ extension ResultsViewController: UITableViewDataSource {
       
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        let history: [(PlayerModel, Int)] = scoreHandler.history.reversed()
+        let history: [HistoryModel] = scoreHandler.history.reversed()
         
         cell.backgroundColor = Colors.shared.backgroundForActive
         cell.textLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 20)
-        cell.textLabel?.text = history[indexPath.row].0.name
-        
+        cell.textLabel?.text = history[indexPath.row].player.name
         cell.detailTextLabel?.font = UIFont(name: "Nunito-ExtraBold", size: 20)
         cell.detailTextLabel?.textColor = .white
-        cell.detailTextLabel?.text = history[indexPath.row].1 > 0 ? "+\(history[indexPath.row].1)" : "\(history[indexPath.row].1)"
+        cell.detailTextLabel?.text = history[indexPath.row].scoreChange > 0 ? "+\(history[indexPath.row].scoreChange)" : "\(history[indexPath.row].scoreChange)"
         
         return cell
     }

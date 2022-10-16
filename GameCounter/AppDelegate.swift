@@ -23,21 +23,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().barTintColor = Colors.shared.backgroundColor
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().shadowImage = UIImage()
+
+        let navigationController = UINavigationController(rootViewController: getRootViewController())
         
-        self.window?.rootViewController = getRootViewController()
+        self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
         
         return true
     }
     
     func getRootViewController() -> UIViewController {
-        let scoreHandler = ScoreHandling()
-        let newGameVC = NewGameViewController(scoreHandler: scoreHandler)
-        let navigationController = UINavigationController(rootViewController: newGameVC)
-        navigationController.setViewControllers([newGameVC], animated: true)
-        return navigationController
+        guard let scoreHandler = ScoreHandling.load() else {
+            return NewGameViewController(scoreHandler: ScoreHandling())
+        }
+        return GameViewController(scoreHandler: scoreHandler)
     }
-
+    
+    func clearEntity(){
+        UserDefaults.standard.removeObject(forKey: "gameData")
+    }
 }
 
 extension AppDelegate {

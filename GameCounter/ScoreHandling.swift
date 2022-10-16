@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ScoreHandling {
+class ScoreHandling: NSObject, NSCoding {
     
     var players: [PlayerModel] = []
     var index = 0
@@ -26,6 +26,32 @@ class ScoreHandling {
         }
     }
     
-    var history: [(PlayerModel, Int)] = []
+    var history: [HistoryModel] = []
+    
+    override init() {}
+    
+    required init?(coder: NSCoder) {
+        self.players = coder.decodeObject(forKey: "players") as! [PlayerModel]
+        self.index = coder.decodeInteger(forKey: "index")
+        self.history = coder.decodeObject(forKey: "history") as! [HistoryModel]
+    }
+    
+    func encode(with coder: NSCoder) {
+        coder.encode(players, forKey: "players")
+        coder.encode(index, forKey: "index")
+        coder.encode(history, forKey: "history")
+    }
+    
+    static func load() -> ScoreHandling? {
+        if let data = UserDefaults.standard.object(forKey: "gameData") {
+            guard let scoreHandler = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data as! Data) else {
+                return nil
+            }
+            return scoreHandler as? ScoreHandling
+        } else {
+            return nil
+        }
+    }
+    
 
 }

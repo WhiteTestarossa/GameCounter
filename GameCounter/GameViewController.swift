@@ -138,8 +138,11 @@ class GameViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.isPagingEnabled = false
         collectionView.showsHorizontalScrollIndicator = false
-        
         fireTimer()
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(saveGame), name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(scrollToCurrent), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -307,8 +310,7 @@ extension GameViewController {
 
     func plusScore(score: Int) {
         scoreHandler.currentPlayer.score += score
-        scoreHandler.history.append((scoreHandler.currentPlayer, score))
-        print(score)
+        scoreHandler.history.append(HistoryModel(player: scoreHandler.currentPlayer, scoreChange: score))
         collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
         if (scoreHandler.index != scoreHandler.players.count - 1 ) {
             scoreHandler.index += 1
@@ -325,7 +327,6 @@ extension GameViewController {
             scoreHandler.index -= 1
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
         }
-        print(collectionView.contentOffset.x)
     }
     
     @objc func nextButtonPressed(_ sender: UIButton) {
@@ -333,7 +334,6 @@ extension GameViewController {
             scoreHandler.index += 1
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
         }
-        print(collectionView.contentOffset.x)
     }
     
     @objc func undoButtonPressed(_ sender: UIButton) {
@@ -343,11 +343,22 @@ extension GameViewController {
             } else if (self.scoreHandler.index - 1 <= 0) {
                 scoreHandler.index = scoreHandler.players.count - 1
             }
-            scoreHandler.currentPlayer.score -= scoreHandler.history.last!.1
+            scoreHandler.currentPlayer.score -= scoreHandler.history.last!.scoreChange
             scoreHandler.history.removeLast()
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
         }
         collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
+    }
+    
+    @objc func saveGame() {
+        let data = try? NSKeyedArchiver.archivedData(withRootObject: scoreHandler, requiringSecureCoding: false)
+        if let data = data {
+            UserDefaults.standard.setValue(data, forKey: "gameData")
+        }
+    }
+    
+    @objc func scrollToCurrent() {
+        collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
     }
 }
 

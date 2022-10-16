@@ -23,6 +23,7 @@
 		9A46CF7128DDB72200118863 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A46CF6828DDB72200118863 /* Nunito-SemiBold.ttf */; };
 		9A46CF7228DDB72200118863 /* Nunito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A46CF6928DDB72200118863 /* Nunito-Medium.ttf */; };
 		9A46CF7428DE2F4300118863 /* PlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A46CF7328DE2F4300118863 /* PlayerTableViewCell.swift */; };
+		9A6C395B28F9585D00ED895C /* HistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6C395A28F9585D00ED895C /* HistoryModel.swift */; };
 		9A6CF42628DEE9800019652D /* GameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42528DEE9800019652D /* GameButton.swift */; };
 		9A6CF42828DEF3DE0019652D /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42728DEF3DE0019652D /* PlayerModel.swift */; };
 		9A6CF42A28DF2EFF0019652D /* AddPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */; };
@@ -54,6 +55,7 @@
 		9A46CF6828DDB72200118863 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		9A46CF6928DDB72200118863 /* Nunito-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Medium.ttf"; sourceTree = "<group>"; };
 		9A46CF7328DE2F4300118863 /* PlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTableViewCell.swift; sourceTree = "<group>"; };
+		9A6C395A28F9585D00ED895C /* HistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModel.swift; sourceTree = "<group>"; };
 		9A6CF42528DEE9800019652D /* GameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameButton.swift; sourceTree = "<group>"; };
 		9A6CF42728DEF3DE0019652D /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
 		9A6CF42928DF2EFF0019652D /* AddPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerViewController.swift; sourceTree = "<group>"; };
@@ -103,11 +105,12 @@
 				9A761C6F28F555460054FF16 /* ResultsViewController.swift */,
 				9A761C7128F564B10054FF16 /* PlayerResultView.swift */,
 				9A761C7328F6BDC50054FF16 /* HistoryCell.swift */,
+				9A6C395A28F9585D00ED895C /* HistoryModel.swift */,
+				9A6CF42728DEF3DE0019652D /* PlayerModel.swift */,
 				9A6D5F7228EF16AA003BBF4A /* ScoreHandling.swift */,
 				9A210B3828EC97CD00254408 /* DiceViewController.swift */,
 				9A6E4D9228E32873003EC80F /* PlayerCollectionViewCell.swift */,
 				9A6CF42B28DF3B050019652D /* PlayerNameTextField.swift */,
-				9A6CF42728DEF3DE0019652D /* PlayerModel.swift */,
 				9A46CF7328DE2F4300118863 /* PlayerTableViewCell.swift */,
 				9A6CF42528DEE9800019652D /* GameButton.swift */,
 				9A46CF6028DDB6F200118863 /* Fonts */,
@@ -213,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A6C395B28F9585D00ED895C /* HistoryModel.swift in Sources */,
 				9A6CF42A28DF2EFF0019652D /* AddPlayerViewController.swift in Sources */,
 				9A6D5F7328EF16AA003BBF4A /* ScoreHandling.swift in Sources */,
 				9A761C7228F564B10054FF16 /* PlayerResultView.swift in Sources */,
