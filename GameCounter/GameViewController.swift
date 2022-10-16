@@ -404,8 +404,8 @@ extension GameViewController: UICollectionViewDelegate {
         let itemIndex = (targetContentOffset.pointee.x) / pageWidth
         
         if (velocity.x == 0) {
-            targetContentOffset.pointee = CGPoint(x: round(itemIndex) * pageWidth, y: targetContentOffset.pointee.y)
-            print(round(itemIndex) * pageWidth)
+            scoreHandler.index = Int(round(itemIndex))
+            targetContentOffset.pointee = CGPoint(x: CGFloat(scoreHandler.index) * pageWidth, y: targetContentOffset.pointee.y)
         } else if (velocity.x > 0) {
             if (scoreHandler.index != scoreHandler.players.count - 1) {
                 scoreHandler.index += 1
@@ -417,6 +417,8 @@ extension GameViewController: UICollectionViewDelegate {
                 targetContentOffset.pointee = CGPoint(x: CGFloat(scoreHandler.index) * pageWidth, y: targetContentOffset.pointee.y)
             }
         }
+        stopTimer()
+        fireTimer()
     }
 }
 
