@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return GameViewController(scoreHandler: scoreHandler)
     }
     
-    func clearEntity(){
+    func clear(){
         UserDefaults.standard.removeObject(forKey: "gameData")
     }
 }

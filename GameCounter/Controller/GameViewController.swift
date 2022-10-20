@@ -285,7 +285,10 @@ extension GameViewController {
     
     @objc func timerButtonPressed(_ sender: UIButton) {
         isRunning.toggle()
-        
+        changeTimerVisualByButton()
+    }
+    
+    func changeTimerVisualByButton()  {
         if (isRunning) {
             timerButton.setImage(UIImage(named: "Pause"), for: .normal)
             timerLabel.alpha = 1.0
@@ -295,6 +298,16 @@ extension GameViewController {
             timerLabel.alpha = 0.4
             timer?.invalidate()
         }
+    }
+    
+    func checkTimer() {
+        if (!isRunning) {
+            isRunning.toggle()
+            timerButton.setImage(UIImage(named: "Pause"), for: .normal)
+            timerLabel.alpha = 1.0
+        }
+        stopTimer()
+        fireTimer()
     }
     
     @objc func plusScoreButtonPressed(_ sender: GameButton) {
@@ -313,16 +326,13 @@ extension GameViewController {
         scoreHandler.currentPlayer.score += score
         scoreHandler.history.append(HistoryModel(player: scoreHandler.currentPlayer, scoreChange: score))
         collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
-        stopTimer()
-        fireTimer()
     }
     
     @objc func previousButtonPressed(_ sender: UIButton) {
         if (scoreHandler.index != 0) {
             scoreHandler.index -= 1
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
-            stopTimer()
-            fireTimer()
+            checkTimer()
         }
     }
     
@@ -330,8 +340,7 @@ extension GameViewController {
         if (scoreHandler.index != scoreHandler.players.count - 1) {
             scoreHandler.index += 1
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
-            stopTimer()
-            fireTimer()
+            checkTimer()
         }
     }
     
@@ -344,8 +353,7 @@ extension GameViewController {
             scoreHandler.currentPlayer.score -= scoreHandler.history.last!.scoreChange
             scoreHandler.history.removeLast()
             collectionView.scrollToItem(at: IndexPath(row: scoreHandler.index, section: 0), at: .centeredHorizontally, animated: true)
-            stopTimer()
-            fireTimer()
+            checkTimer()
         }
         collectionView.reloadItems(at: [IndexPath(row: scoreHandler.index, section: 0)])
     }
@@ -417,8 +425,8 @@ extension GameViewController: UICollectionViewDelegate {
                 targetContentOffset.pointee = CGPoint(x: CGFloat(scoreHandler.index) * pageWidth, y: targetContentOffset.pointee.y)
             }
         }
-        stopTimer()
-        fireTimer()
+        
+        checkTimer()
     }
 }
 
@@ -461,6 +469,8 @@ extension GameViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 0, left: sideInset, bottom: 0, right: sideInset)
     }
 }
+
+//FIXME: CHECK FOR TTOGGLE, DISABLE WHEN PRESS +SCORE
 
 extension GameViewController {
     enum Sizes {
